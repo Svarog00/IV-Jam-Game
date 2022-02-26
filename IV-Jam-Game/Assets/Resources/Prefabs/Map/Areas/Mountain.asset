@@ -15,4 +15,4 @@ MonoBehaviour:
   _type: 2
   _timeCost: 5
   _energyCost: 5
-  _prefab: {fileID: 0}
+  _prefab: {fileID: 6731169321529252969, guid: 0ea9581b47997224a81b8e95ffb14371, type: 3}

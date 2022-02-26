@@ -22,6 +22,13 @@ namespace Assets.Code.Gameplay.Map
             _model = new MapModel(_width, _height, _areasContainer);
 
             DrawScheme();
+            DrawMap();
+            CreateBorder();
+        }
+
+        private void CreateBorder()
+        {
+            
         }
 
         private void DrawMap()

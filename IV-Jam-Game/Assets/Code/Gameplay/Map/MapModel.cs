@@ -38,5 +38,10 @@ namespace Assets.Code.Gameplay.Map
             int heightCenter = _areas.GetLength(1) / 2;
             _areas[widthCenter, heightCenter] = _areasContainer.GetTownArea();
         }
+
+        public bool CheckPath()
+        {
+            return true;
+        }
     }
 }
