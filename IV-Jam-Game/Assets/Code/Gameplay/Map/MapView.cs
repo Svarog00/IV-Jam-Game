@@ -7,6 +7,8 @@ namespace Assets.Code.Gameplay.Map
 {
     public class MapView : MonoBehaviour
     {
+        private const string InitialPointTag = "InitialPoint";
+
         [SerializeField] private Vector3 _originPosition = Vector3.zero;
 
         [SerializeField] private AreasContainer _areasContainer;
@@ -17,18 +19,13 @@ namespace Assets.Code.Gameplay.Map
 
         private MapModel _model;
 
-        void Start()
+        void Awake()
         {
             _model = new MapModel(_width, _height, _areasContainer);
 
+
             DrawScheme();
             DrawMap();
-            CreateBorder();
-        }
-
-        private void CreateBorder()
-        {
-            
         }
 
         private void DrawMap()
@@ -40,6 +37,13 @@ namespace Assets.Code.Gameplay.Map
                     _model.Areas[i, j].CreateInstance(GetWorldPosition(i, j) + new Vector3(_areaSize, _areaSize) * .5f);
                 }
             }
+
+            GameObject.FindGameObjectWithTag(InitialPointTag).transform.position = GetWorldPosition(_model.GetTownPosition().x, _model.GetTownPosition().y) + new Vector3(_areaSize * .5f, _areaSize * .5f);
+        }
+
+        public bool IsPathViable(List<Area> path)
+        {
+            return _model.IsPathViable(path);
         }
 
         private void DrawScheme()
@@ -60,7 +64,7 @@ namespace Assets.Code.Gameplay.Map
             }
         }
 
-        public Vector3 GetWorldPosition(int x, int y)
+        public Vector3 GetWorldPosition(float x, float y)
         {
             return new Vector3(x, y) * _areaSize + _originPosition;
         }

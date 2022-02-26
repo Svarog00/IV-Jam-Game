@@ -7,7 +7,9 @@ namespace Assets.Code.Gameplay.Map
 {
     public class PathBuildingManager : MonoBehaviour
     {
-        private List<Area> _path;
+        public IEnumerable Path => _path;
+
+        private List<Area> _path = new List<Area>();
 
         public void AddPoint(Area area)
         {

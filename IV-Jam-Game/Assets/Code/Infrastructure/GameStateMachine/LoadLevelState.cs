@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Code.Gameplay.Camera;
+using UnityEngine;
 
 namespace Assets.Code.Infrastructure
 {
@@ -42,7 +43,15 @@ namespace Assets.Code.Infrastructure
 
         private void SpawnPlayer()
         {
-            _gameFactory.InstantiateHero(GameObject.FindGameObjectWithTag(InitialPointTag));
+            var player = _gameFactory.InstantiateHero(GameObject.FindGameObjectWithTag(InitialPointTag));
+            CameraFollow(player);
+        }
+
+        private void CameraFollow(GameObject player)
+        {
+            Camera.main.
+                GetComponent<CameraFollow>().
+                Follow(player);
         }
     }
 }

@@ -46,5 +46,5 @@ MonoBehaviour:
   _originPosition: {x: 0, y: 0, z: 0}
   _areasContainer: {fileID: 11400000, guid: 0e39186520df12946ab954f55bcfe95e, type: 2}
   _areaSize: 5
-  _width: 3
-  _height: 3
+  _width: 4
+  _height: 4

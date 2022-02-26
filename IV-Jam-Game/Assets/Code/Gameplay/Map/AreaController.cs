@@ -5,11 +5,13 @@ namespace Assets.Code.Gameplay.Map
 {
     public class AreaController : MonoBehaviour
     {
-        private Area _areaModel;
+        private Area _model;
         private PathBuildingManager _pathManager;
 
         private bool _isRevealed;
-        private bool _isMarked;
+
+        //[SerializeField] private GameObject _pathFlag;
+        //Path flag is just a game object with flag sprite
 
         private void Start()
         {
@@ -18,16 +20,22 @@ namespace Assets.Code.Gameplay.Map
 
         public void Initialize(Area areaModel)
         {
-            _areaModel = areaModel;
+            _model = Instantiate(areaModel);
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if(collision.CompareTag("Player") && _isRevealed == false)
             {
-                _isRevealed = true;
-                print($"Reavealed Area {_areaModel}");
+                RevealArea();
             }
+        }
+
+        private void RevealArea()
+        {
+            _isRevealed = true;
+            print($"Reavealed Area {_model}");
+            //TODO: Turn off the mist, covering the area
         }
 
         private void OnMouseDown()
@@ -39,16 +47,17 @@ namespace Assets.Code.Gameplay.Map
         {
             if (_isRevealed)
             {
-                if (_isMarked)
+                if (_model.IsMarked)
                 {
-                    _isMarked = false;
-                    _pathManager.DeletePoint(_areaModel);
+                    _model.IsMarked = false;
+                    _pathManager.DeletePoint(_model);
+                    //TODO: Turn off the flag mark
                 }
                 else
                 {
-
-                    _isMarked = true;
-                    _pathManager.AddPoint(_areaModel);
+                    _model.IsMarked = true;
+                    _pathManager.AddPoint(_model);
+                    //TODO: Turn on the flag mark
                 }
             }
         }
