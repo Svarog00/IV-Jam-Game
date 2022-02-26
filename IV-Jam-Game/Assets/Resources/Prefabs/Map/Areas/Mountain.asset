@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81651ddd937e274fbaa5f2eb43f3ec5, type: 3}
   m_Name: Mountain
   m_EditorClassIdentifier: 
+  IsMarked: 0
+  IsTarget: 0
+  X: 0
+  Y: 0
   _type: 2
-  _timeCost: 5
-  _energyCost: 5
-  _prefab: {fileID: 0}
+  _timeCost: 6
+  _energyCost: 6
+  _prefab: {fileID: 6731169321529252969, guid: 0ea9581b47997224a81b8e95ffb14371, type: 3}

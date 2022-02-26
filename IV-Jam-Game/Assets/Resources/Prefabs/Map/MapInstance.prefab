@@ -43,8 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bfa9e5611070484a9a3aeeeed8985a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _originPosition: {x: -6, y: -4, z: 0}
+  _originPosition: {x: 0, y: 0, z: 0}
   _areasContainer: {fileID: 11400000, guid: 0e39186520df12946ab954f55bcfe95e, type: 2}
   _areaSize: 5
-  _width: 3
-  _height: 3
+  _width: 4
+  _height: 4
