@@ -23,7 +23,7 @@ namespace Assets.Code.Utility
 
             //Get new element as high as it should be
             //Если цена у родителя больше, чем у потомка, то меняем их местами
-            while (i > 0 && _elements[parent].Item2 > _elements[i].Item2)
+            while (i > 0 && _elements[parent].Item2 < _elements[i].Item2)
             {
                 Tuple<T, double> temp = _elements[i];
                 _elements[i] = _elements[parent];
@@ -58,12 +58,12 @@ namespace Assets.Code.Utility
                 smallestChild = i;
 
                 //Если правый или левый потомок меньше по цене, чем текущий, то меням их местами
-                if (leftChild < Count && _elements[leftChild].Item2 < _elements[smallestChild].Item2)
+                if (leftChild < Count && _elements[leftChild].Item2 > _elements[smallestChild].Item2)
                 {
                     smallestChild = leftChild;
                 }
 
-                if (rightChild < Count && _elements[rightChild].Item2 < _elements[smallestChild].Item2)
+                if (rightChild < Count && _elements[rightChild].Item2 > _elements[smallestChild].Item2)
                 {
                     smallestChild = rightChild;
                 }

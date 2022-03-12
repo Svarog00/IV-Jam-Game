@@ -4,5 +4,6 @@
     {
         bool IsLeftMouseButtonDown();
         bool IsRightMouseButtonDown();
+        bool IsPassPathButtonDown();
     }
 }

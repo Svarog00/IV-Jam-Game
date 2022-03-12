@@ -45,6 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _originPosition: {x: 0, y: 0, z: 0}
   _areasContainer: {fileID: 11400000, guid: 0e39186520df12946ab954f55bcfe95e, type: 2}
-  _areaSize: 5
+  _targetPrefab: {fileID: 4064213579825030776, guid: 5358be24ba552f348ba95f6248a98289, type: 3}
+  _areaSize: 2.4
   _width: 4
   _height: 4

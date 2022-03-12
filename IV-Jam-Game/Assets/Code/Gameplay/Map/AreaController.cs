@@ -1,26 +1,31 @@
-﻿using System.Collections;
+﻿using Assets.Code.GUI;
+using System.Collections;
 using UnityEngine;
 
 namespace Assets.Code.Gameplay.Map
 {
     public class AreaController : MonoBehaviour
     {
-        private Area _model;
-        private PathBuildingManager _pathManager;
+        protected PathBuildingManager PathManager;
+        protected ResourcesUI Interface;
+        protected Area Model;
+
+        [SerializeField] private GameObject _mistVisual;
 
         private bool _isRevealed;
 
-        //[SerializeField] private GameObject _pathFlag;
+        [SerializeField] private GameObject _pathFlag;
         //Path flag is just a game object with flag sprite
 
         private void Start()
         {
-            _pathManager = FindObjectOfType<PathBuildingManager>();
+            Interface = FindObjectOfType<ResourcesUI>();
+            PathManager = FindObjectOfType<PathBuildingManager>();
         }
 
         public void Initialize(Area areaModel)
         {
-            _model = Instantiate(areaModel);
+            Model = Instantiate(areaModel);
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
@@ -29,13 +34,13 @@ namespace Assets.Code.Gameplay.Map
             {
                 RevealArea();
             }
+            Interface.SetValues(Model.TimeCost, Model.EnergyCost);
         }
 
         private void RevealArea()
         {
             _isRevealed = true;
-            print($"Reavealed Area {_model}");
-            //TODO: Turn off the mist, covering the area
+            _mistVisual.SetActive(false);
         }
 
         private void OnMouseDown()
@@ -47,17 +52,17 @@ namespace Assets.Code.Gameplay.Map
         {
             if (_isRevealed)
             {
-                if (_model.IsMarked)
+                if (Model.IsMarked)
                 {
-                    _model.IsMarked = false;
-                    _pathManager.DeletePoint(_model);
-                    //TODO: Turn off the flag mark
+                    Model.IsMarked = false;
+                    PathManager.DeletePoint(Model);
+                    _pathFlag.SetActive(Model.IsMarked);
                 }
                 else
                 {
-                    _model.IsMarked = true;
-                    _pathManager.AddPoint(_model);
-                    //TODO: Turn on the flag mark
+                    Model.IsMarked = true;
+                    PathManager.AddPoint(Model);
+                    _pathFlag.SetActive(Model.IsMarked);
                 }
             }
         }

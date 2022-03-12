@@ -25,6 +25,7 @@ namespace Assets.Code.Infrastructure
 
         private void OnLoaded()
         {
+            _gameFactory.CreateHud();
             CreateMap();
             SpawnPlayer();
 

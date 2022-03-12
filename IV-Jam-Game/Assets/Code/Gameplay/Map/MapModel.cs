@@ -9,7 +9,7 @@ namespace Assets.Code.Gameplay.Map
     {
         public Area[,] Areas => _areas;
 
-        private readonly Area[,] _areas;
+        private Area[,] _areas;
         private readonly AreasContainer _areasContainer;
 
         private readonly int _width;
@@ -59,14 +59,28 @@ namespace Assets.Code.Gameplay.Map
 
         public bool IsPathViable(List<Area> path)
         {
+            if(!path.Contains(_areas[_townX, _townY]))
+            {
+                path.Add(_areas[_townX, _townY]);
+            }
+
+            int counter = 0;
             foreach(var area in path)
             {
-                foreach(var tmp in GetNeighbours(area))
+                foreach(var neighbour in GetNeighbours(area))
                 {
-                    if(!path.Contains(tmp))
+                    if(path.Contains(neighbour) == false)
                     {
-                        return false;
+                        counter++;
                     }
+                }
+                if(counter == 4)
+                {
+                    return false;
+                }
+                else
+                {
+                    counter = 0;
                 }
             }
             return true;
@@ -76,9 +90,6 @@ namespace Assets.Code.Gameplay.Map
         //Should return needed energy and time costs
         public void BuildEfficientPath(out int energyCost, out int timeCost, int x, int y)
         {
-            int tmpEnergyCost = 0;
-            int tmpTimeCost = 0;
-
             var start = _areas[_townX, _townY];
             var target = _areas[x, y];
 
@@ -134,14 +145,28 @@ namespace Assets.Code.Gameplay.Map
                 //Путь будет найден с наименьшей ценой
             }
 
-            foreach(var tmp in cameFrom)
+            energyCost = 0;
+            timeCost = 0;
+            Area currentTmp = target;
+            while(currentTmp != start)
             {
-                tmpEnergyCost += tmp.Value.EnergyCost;
-                tmpTimeCost += tmp.Value.TimeCost;
+                energyCost += currentTmp.EnergyCost;
+                timeCost += currentTmp.TimeCost;
+                currentTmp = cameFrom[currentTmp];
             }
+            energyCost += start.EnergyCost;
+            timeCost += start.TimeCost;
+        }
 
-            energyCost = tmpEnergyCost;
-            timeCost = tmpTimeCost;
+        public void GetRandomAreaCoord(out int x, out int y)
+        {
+            x = _townX;
+            y = _townY;
+            while(_townX == x && _townY == y)
+            {
+                x = Random.Range(0, _width);
+                y = Random.Range(0, _height);
+            }
         }
 
         private List<Area> GetNeighbours(Area current)
@@ -152,22 +177,22 @@ namespace Assets.Code.Gameplay.Map
             {
                 neighbourList.Add(GetArea(current.X - 1, current.Y));
 
-                if (current.Y - 1 >= 0)
+                /*if (current.Y - 1 >= 0)
                     neighbourList.Add(GetArea(current.X - 1, current.Y - 1));
 
                 if (current.Y + 1 < _height)
-                    neighbourList.Add(GetArea(current.X - 1, current.Y + 1));
+                    neighbourList.Add(GetArea(current.X - 1, current.Y + 1));*/
             }
 
             if (current.X + 1 < _width)
             {
                 neighbourList.Add(GetArea(current.X + 1, current.Y));
 
-                if (current.Y - 1 >= 0)
+                /*if (current.Y - 1 >= 0)
                     neighbourList.Add(GetArea(current.X + 1, current.Y - 1));
 
                 if (current.Y + 1 < _height)
-                    neighbourList.Add(GetArea(current.X + 1, current.Y + 1));
+                    neighbourList.Add(GetArea(current.X + 1, current.Y + 1));*/
             }
 
             if (current.Y - 1 >= 0)

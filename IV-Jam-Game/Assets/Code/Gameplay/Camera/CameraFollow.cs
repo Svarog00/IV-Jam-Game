@@ -10,5 +10,10 @@ namespace Assets.Code.Gameplay.Camera
         {
             GetComponentInChildren<CinemachineVirtualCamera>().Follow = hero.transform;
         }
+
+        public void SetBorder(Collider2D collider)
+        {
+            GetComponentInChildren<CinemachineConfiner>().m_BoundingShape2D = collider;
+        }
     }
 }

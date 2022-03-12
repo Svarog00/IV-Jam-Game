@@ -17,6 +17,7 @@ MonoBehaviour:
   X: 0
   Y: 0
   _type: 3
-  _timeCost: 6
-  _energyCost: 3
+  _timeCost: 3
+  _energyCost: 6
   _prefab: {fileID: 6731169321529252969, guid: 0ea9581b47997224a81b8e95ffb14371, type: 3}
+  _sprite: {fileID: 6732742066884364779, guid: cce9a26e2daf94d4b97aa7757abd7528, type: 3}

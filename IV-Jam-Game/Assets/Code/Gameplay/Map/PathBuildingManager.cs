@@ -7,18 +7,18 @@ namespace Assets.Code.Gameplay.Map
 {
     public class PathBuildingManager : MonoBehaviour
     {
-        public IEnumerable Path => _path;
+        public List<Area> Path => _pathList;
 
-        private List<Area> _path = new List<Area>();
+        [SerializeField] private List<Area> _pathList = new List<Area>();
 
         public void AddPoint(Area area)
         {
-            _path.Add(area);
+            _pathList.Add(area);
         }
 
         public void DeletePoint(Area area)
         {
-            _path.Remove(area);
+            _pathList.Remove(area);
         }
     }
 }
