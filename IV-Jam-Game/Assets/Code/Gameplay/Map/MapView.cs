@@ -1,4 +1,5 @@
 using Assets.Code.Gameplay.Camera;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +8,7 @@ namespace Assets.Code.Gameplay.Map
     public class MapView : MonoBehaviour
     {
         private const string InitialPointTag = "InitialPoint";
+        private const string PlayerTag = "Player";
 
         public int Width => _width;
         public int Height => _height;
@@ -22,6 +24,8 @@ namespace Assets.Code.Gameplay.Map
 
         private MapModel _model;
         private GameObject[,] _areas;
+
+        private GameObject _targetTmpInstance;
 
         void Awake()
         {
@@ -77,6 +81,8 @@ namespace Assets.Code.Gameplay.Map
             _width++;
             _height++;
 
+            Destroy(_targetTmpInstance);
+
             foreach(var area in _areas)
             {
                 Destroy(area);
@@ -85,6 +91,18 @@ namespace Assets.Code.Gameplay.Map
             _model = new MapModel(_width, _height, _areasContainer);
             _areas = new GameObject[_width, _height];
             DrawMap();
+            UpdateBorder();
+        }
+
+        private void UpdateBorder()
+        {
+            PolygonCollider2D collider = gameObject.GetComponent<PolygonCollider2D>();
+            collider.points = new Vector2[]{
+                new Vector2(0, 0),
+                new Vector2(0, _height * _areaSize),
+                new Vector2(_width * _areaSize, _height * _areaSize),
+                new Vector2(_width * _areaSize, 0),
+            };
         }
 
         public Vector3 GetWorldPosition(float x, float y)
@@ -105,10 +123,35 @@ namespace Assets.Code.Gameplay.Map
 
         public void SetTarget(int x, int y)
         {
-            Instantiate(
+            print("New target set");
+            _targetTmpInstance = Instantiate(
                 _targetPrefab, 
                 GetWorldPosition(x, y) + new Vector3(_areaSize * .5f, _areaSize * .5f), Quaternion.identity, 
                 _areas[x, y].transform);
+        }
+
+        private void OnTriggerExit2D(Collider2D collision)
+        {
+            if(collision.CompareTag(PlayerTag))
+            {
+                if(collision.transform.position.x > _width * _areaSize)
+                {
+                    collision.transform.position = new Vector2(0, collision.transform.position.y);
+                }
+                if (collision.transform.position.x < 0)
+                {
+                    collision.transform.position = new Vector2(_width * _areaSize, collision.transform.position.y);
+                }
+
+                if (collision.transform.position.y > _height * _areaSize)
+                {
+                    collision.transform.position = new Vector2(collision.transform.position.x, 0);
+                }
+                if (collision.transform.position.y < 0)
+                {
+                    collision.transform.position = new Vector2(collision.transform.position.x, _height * _areaSize);
+                }
+            }
         }
     }
 }

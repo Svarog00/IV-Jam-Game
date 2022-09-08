@@ -1,5 +1,7 @@
 ﻿using Assets.Code.Gameplay.Map;
 using System.Collections.Generic;
+using System.Diagnostics;
+using UnityEngine;
 
 namespace Assets.Code.Gameplay
 {
@@ -27,23 +29,26 @@ namespace Assets.Code.Gameplay
             _map.BuildEfficientPath(out _energyNeeded, out _timeNeeded, x, y);
         }
 
-        public void CompleteTask(List<Area> path)
+        public bool CompleteTask(List<Area> path)
         {
             int tmpTime = 0;
             int tmpEnergy = 0;
 
             foreach(var area in path)
             {
-                tmpTime += area.EnergyCost;
-                tmpEnergy += area.TimeCost;
+                tmpTime += area.TimeCost;
+                tmpEnergy += area.EnergyCost;
             }
 
             if((tmpTime <= _timeNeeded && tmpEnergy <= _energyNeeded) ||
                 (tmpTime / tmpEnergy <= _timeNeeded / _energyNeeded))
             {
                 RegenMap();
-                GetNewTask();
+                return true;
+                //GetNewTask();
             }
+
+            return false;
         }
 
         private void RegenMap()

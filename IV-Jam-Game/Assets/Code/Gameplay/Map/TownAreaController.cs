@@ -17,7 +17,6 @@ namespace Assets.Code.Gameplay.Map
 
 		private void Start()
 		{
-			Interface = FindObjectOfType<ResourcesUI>();
 			PathManager = FindObjectOfType<PathBuildingManager>();
 			
 			_map = GetComponentInParent<MapView>();
@@ -40,17 +39,13 @@ namespace Assets.Code.Gameplay.Map
 
         private void PassPath()
         {
-			int tmpTime = 0;
-			int tmpEnergy = 0;
-			foreach (var area in PathManager.Path)
-			{
-				tmpEnergy += area.EnergyCost;
-				tmpTime += area.TimeCost;
-			}
-
 			if (_map.IsPathViable(PathManager.Path))
             {
-                _taskManager.CompleteTask(PathManager.Path);
+				bool isCompleted = _taskManager.CompleteTask(PathManager.Path);
+				if (isCompleted)
+				{
+					PathManager.ClearPath();
+				}
             }
         }
 
@@ -58,9 +53,18 @@ namespace Assets.Code.Gameplay.Map
 		{
 			if(collision.CompareTag("Player"))
 			{
-				Interface.SetValues(Model.TimeCost, Model.EnergyCost);
 				_isPlayerIn = true;
-			}
+                NotifyInterface();
+            }
 		}
+
+		private void OnTriggerExit2D(Collider2D collision)
+		{
+            if (collision.CompareTag("Player"))
+            {
+                _isPlayerIn = false;
+                NotifyInterface();
+            }
+        }
 	}
 }
